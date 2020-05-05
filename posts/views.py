@@ -49,7 +49,6 @@ def profile(request, username):
     f_count = Follow.objects.filter(author=post_author).count()
     return render(request,"profile.html", {"post_author": post_author, "paginator": paginator,"page": page, "count": count, "follow_count" : follow_count, "following" : following, "f_count" : f_count}) 
 
-@login_required
 def post_view(request, username, post_id):
     author = get_object_or_404(User, username=username)
     post = get_object_or_404(Post, author=author, pk=post_id)
