@@ -1,4 +1,3 @@
-from django.http import HttpResponse
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.core.paginator import Paginator
@@ -24,6 +23,7 @@ def group_posts(request, slug):
     page = paginator.get_page(page_number)
     return render(request, "group.html", {"group": group, "page": page, "paginator": paginator})
 
+
 @login_required
 def new_post(request):
     form = PostForm(request.POST or None, files=request.FILES or None)
@@ -33,6 +33,7 @@ def new_post(request):
             form.save()
             return redirect("index")
     return render(request, "new.html", {"form": form, "text_head": "Добавить запись", "text_button": "Добавить"})
+
 
 def profile(request, username):
     post_author = get_object_or_404(User, username=username)
@@ -48,6 +49,7 @@ def profile(request, username):
     follow_count = Follow.objects.filter(user=post_author).count()
     f_count = Follow.objects.filter(author=post_author).count()
     return render(request,"profile.html", {"post_author": post_author, "paginator": paginator,"page": page, "count": count, "follow_count" : follow_count, "following" : following, "f_count" : f_count}) 
+
 
 def post_view(request, username, post_id):
     author = get_object_or_404(User, username=username)
@@ -117,5 +119,5 @@ def profile_follow(request, username):
 @login_required
 def profile_unfollow(request, username):
     post_author = get_object_or_404(User, username=username)
-    unfollow = Follow.objects.filter(user=request.user, author=post_author).delete()
+    Follow.objects.filter(user=request.user, author=post_author).delete()
     return redirect(profile, username)
