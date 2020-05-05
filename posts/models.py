@@ -22,7 +22,7 @@ class Post(models.Model):
     image = models.ImageField(upload_to='posts/', blank=True, null=True)
 
     def __str__(self):
-       return self.text
+        return self.text
 
 
 class Comment(models.Model):
@@ -32,11 +32,13 @@ class Comment(models.Model):
     created = models.DateTimeField("date published", auto_now_add=True)
 
     def __str__(self):
-       return self.text
+        return self.text
+
 
 class Follow(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name="follower")
     author = models.ForeignKey(User, on_delete=models.CASCADE, related_name="following")
     
     def __str__(self):
-       return self.text
+        return self.user
+        
